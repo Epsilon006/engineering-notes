@@ -1,0 +1,10 @@
+This repository includes material derived from NVIDIA TensorRT-LLM.
+Upstream: https://github.com/NVIDIA/TensorRT-LLM
+The historical reproducer derives its request helper and GPU regression from
+tests/unittest/_torch/pyexecutor/kv_cache/test_kvcm2_integration.py in the
+candidate change for issue #21470. Original NVIDIA copyright and Apache-2.0
+headers are retained in reproducer.py. Exact provenance is in results.md.
+
+This is an independent engineering note, not an NVIDIA publication or an
+endorsement. The note does not claim that the original deployment has been
+reproduced end to end or that PR #21720 has been merged.
