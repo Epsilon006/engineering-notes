@@ -53,8 +53,12 @@ For this non-speculative configuration, [generation headroom is one token](https
 Define `align4(n) = 4 × ceil(n / 4)`. The original width was therefore:
 
 $$
-W_{original}=\operatorname{align4}\left(\left\lceil\frac{2048+1}{32}\right\rceil\right)
-=\operatorname{align4}(65)=68.
+W_{\mathrm{original}}
+= 4\left\lceil
+\frac{\left\lceil (2048+1)/32 \right\rceil}{4}
+\right\rceil
+= 4\left\lceil \frac{65}{4} \right\rceil
+= 68
 $$
 
 Clamping `self.max_seq_len` did not itself reject the externally supplied context chunk. In the [historical resize path](https://github.com/NVIDIA/TensorRT-LLM/blob/ac6fb72d9fa1caf2b2d730aa4797727e6b3f6d23/tensorrt_llm/_torch/pyexecutor/kv_cache/kv_cache_manager_v2.py#L5254), the target was still computed from the request:
@@ -98,8 +102,12 @@ This was the useful result of the reduction: the same exception text at the same
 The first candidate used configured `max_seq_len`, rather than clamped `self.max_seq_len`, when calculating table width. That changed the calculation to:
 
 $$
-W_{candidate}=\operatorname{align4}\left(\left\lceil\frac{8192+1}{32}\right\rceil\right)
-=\operatorname{align4}(257)=260.
+W_{\mathrm{candidate}}
+= 4\left\lceil
+\frac{\left\lceil (8192+1)/32 \right\rceil}{4}
+\right\rceil
+= 4\left\lceil \frac{257}{4} \right\rceil
+= 260
 $$
 
 Now the 256-entry context span fit inside the table. Physical capacity was still 2048 tokens. The allocator could reach its normal resource-failure path and return `False`.
